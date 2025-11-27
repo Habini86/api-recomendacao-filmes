@@ -1,0 +1,27 @@
+{
+  "name": "api-recomendacao-filmes",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "API para recomendação de filmes baseada em critérios definidos.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "csv-parse": "^6.1.0",
+    "csv-parser": "^3.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "keywords": [
+    "api",
+    "filmes",
+    "recomendacao"
+  ],
+  "author": "Seu Nome",
+  "license": "ISC"
+}
