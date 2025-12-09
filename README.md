@@ -38,7 +38,7 @@ O servidor ficará disponível na porta 3000 (ou na porta definida na variável 
 - **GET /api/status**
 - Retorna:
   ```json
-  { "status": "API está funcionando" }
+  { "status": "Serviço de recomendação ativo. Filmes carregados: <quantidade>" }
   ```
 
 ### Obter Recomendações
@@ -46,14 +46,14 @@ O servidor ficará disponível na porta 3000 (ou na porta definida na variável 
 - **GET /api/recomendar**
 - Parâmetros:
   - `filmeId` (opcional): ID do filme de referência.
-  - `genero` (opcional): Gênero para recomendações.
+  - `genero` (opcional): Gênero para recomendações (exatamente como está no CSV, ex: "Action", "Drama").
 - Retorno:
   ```json
   [
     {
       "id": "1",
       "titulo": "Filme Exemplo",
-      "generos": ["Ação", "Aventura"],
+      "generos": ["Action", "Adventure"],
       "nota": 8.5,
       "ano": 2020
     },
@@ -84,8 +84,6 @@ O servidor ficará disponível na porta 3000 (ou na porta definida na variável 
 
 ### Técnico
 
-### Técnico
-
 O algoritmo é uma **árvore de decisão baseada em regras**:
 
 1. **Exclusão**: O próprio filme de referência nunca é recomendado (pontuação -1).
@@ -98,11 +96,7 @@ O algoritmo é uma **árvore de decisão baseada em regras**:
    - Se a avaliação for maior ou igual a 7: recebe **30 pontos**.
    - Se a avaliação for maior ou igual a 5: recebe **15 pontos**.
    - Se a avaliação for menor que 5: recebe **5 pontos**.
-
-> **Observação:**  
-> Os pontos acima são usados apenas para ranquear os filmes recomendados.  
-> O campo `nota` refere-se à avaliação do filme no dataset, enquanto a pontuação é calculada pelo algoritmo para decidir a recomendação.
-
+4. **Bônus**: Filmes lançados após 2010 recebem +30 pontos.
 
 Após pontuar todos os filmes, o algoritmo ordena pela pontuação e retorna os 10 melhores.
 
@@ -115,7 +109,7 @@ curl "http://localhost:3000/api/recomendar?filmeId=2"
 
 Recomendação por gênero:
 ```bash
-curl "http://localhost:3000/api/recomendar?genero=Ação"
+curl "http://localhost:3000/api/recomendar?genero=Action"
 ```
 
 Recomendação aleatória:
