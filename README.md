@@ -52,6 +52,7 @@ O servidor ficará disponível na porta 3000 (ou na porta definida na variável 
   [
     {
       "id": "1",
+      "titulo": "Filme Exemplo",
       "generos": ["Ação", "Aventura"],
       "nota": 8.5,
       "ano": 2020
@@ -109,7 +110,7 @@ Após pontuar todos os filmes, o algoritmo ordena pela pontuação e retorna os 
 
 Recomendação por filme:
 ```bash
-curl "http://localhost:3000/api/recomendar?filmeId=1"
+curl "http://localhost:3000/api/recomendar?filmeId=2"
 ```
 
 Recomendação por gênero:

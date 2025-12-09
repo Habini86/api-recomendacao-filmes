@@ -12,6 +12,8 @@ class AlgoritmoRecomendacao {
     // Não recomenda o próprio filme
     if (filme.id === filmeReferencia.id) return -1
 
+    let pontuacao = 0
+
     // Critérios de decisão
     if (
       filme.generos &&
@@ -22,36 +24,48 @@ class AlgoritmoRecomendacao {
       if (filme.nota >= 7) {
         // Se nota alta
         if (Math.abs(filme.ano - filmeReferencia.ano) <= 2) {
-          // Se ano próximo
-          return 100
+          pontuacao = 100
+        } else {
+          pontuacao = 80
         }
-        return 80
       } else if (filme.nota >= 5) {
-        return 60
+        pontuacao = 60
       } else {
-        return 40
+        pontuacao = 40
       }
     } else {
       // Se gênero diferente
       if (filme.nota >= 7) {
-        return 30
+        pontuacao = 30
       } else if (filme.nota >= 5) {
-        return 15
+        pontuacao = 15
       } else {
-        return 5
+        pontuacao = 5
       }
     }
+
+    // Bônus para filmes lançados após 2010
+    if (filme.ano >= 2010) {
+      pontuacao += 30
+    }
+
+    return pontuacao
   }
 
-  recomendar(filmeReferencia) {
-    const filmesComPontuacao = this.filmes
+  recomendar(filmeReferencia, generoFiltro = null) {
+    let filmesFiltrados = this.filmes.filter(filme =>
+      filme.id !== filmeReferencia.id &&
+      (!generoFiltro ||
+        (filme.generos && filme.generos.some(g => g.toLowerCase() === generoFiltro.toLowerCase())))
+    )
+
+    let filmesComPontuacao = filmesFiltrados
       .map((filme) => {
         const pontuacao = this.calcularPontuacao(filmeReferencia, filme)
         return { filme, pontuacao }
       })
       .filter((item) => item.pontuacao > 0)
 
-    // Ordena filmes pela pontuação e seleciona os 10 melhores
     const melhoresFilmes = filmesComPontuacao
       .sort((a, b) => b.pontuacao - a.pontuacao)
       .slice(0, 10)

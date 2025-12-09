@@ -14,7 +14,9 @@ class RecomendacaoController {
         filmeReferencia = this.recomendacaoService.filmes.find(
           (filme) =>
             (filmeId && filme.id === filmeId) ||
-            (genero && filme.generos && filme.generos.includes(genero))
+            (genero &&
+              filme.generos &&
+              filme.generos.some(g => g.toLowerCase() === genero.toLowerCase()))
         )
       }
 
@@ -30,7 +32,7 @@ class RecomendacaoController {
         return res.status(404).json({ mensagem: 'Filme de referência não encontrado.' })
       }
 
-      const recomendacoes = this.recomendacaoService.recomendar(filmeReferencia)
+      const recomendacoes = this.recomendacaoService.recomendar(filmeReferencia, genero)
       return res.status(200).json(recomendacoes)
     } catch (error) {
       console.error(error)

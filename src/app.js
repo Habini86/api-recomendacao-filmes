@@ -14,6 +14,7 @@ const filmesRaw = csvParser.readCsv('../data/movies_metadata.csv')
 // 2. Adaptar os dados para o formato esperado
 const filmes = filmesRaw.map(filme => ({
   id: filme.id,
+  titulo: filme.title,
   generos: (() => {
     try {
       // Corrige aspas simples para duplas e converte para JSON
